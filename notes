@@ -1,0 +1,192 @@
+Fait :
+
+refaire le matchmedia
+insertion du bouton btnswitch theme ( revoir le z-index TW  ? )
+mise en page du slogan avec TW
+modifier le switch des images en le mettant points de tailwind  c'est a dire sm 640 md 768 lg 1024
+Gérer le loop du carousel ... Le carrousel ne marche pas quand on REVIENT  sur la page d'accueil -> problème du loop réglé par l'ajout d'un slide vide
+changer color  le footer
+Mettre en place le darkTheme à l'aide de TW
+Placer l'observer, (lien dans marque page)
+le #141516 devient le myDark-100
+La page des cours ? avec un carousel 3D .... OK
+"Appuyez sur entrer" sur l'input footer -> ouvre une nouvelle fenetre grâce à mask.vue
+Faire les boutons "Light" en tant que components
+regex test sur login.vue
+Rédiger la présentation
+pourquoi scrolltop dans index.vue ? verifier et supprimer
+Recharger la page au breakpoint ? -> non, recharger seulement swiper au redimensionnement de la page grace à :key
+version mobile cours.vue : navigation et breakpoint slideperview
+changer une variable d'un enfant vers parent ...... vue x ? OUi
+les router-links dans mobileMenu.vue
+transition sur le mode dark ==> fade ? Pas reussi..
+transition du mask : OK via this.emit pour fermer et reinit prop show
+
+to do  :
+
+finir login.vue -> mot de passe, requete Ajax ?
+modal vue ?
+
+
+*** remarques :
+définition des routes : le menu mobile a un ficher .vue à part mais le login est responsive avec la version desktop
+Les fonts sont placées dans le style/main.css et sont ensuite traitées par Gulp. Le css principal inclut tailwind, et se trouve dans "dest"
+a propos du carousel -> il est responsive en rechargeant la page, on aurait pu recharger les éléments au "onSlideChange" mais pour charger le moins de ressources possible, optimiser
+un petit mt-5 suffit sur le 2e ctnr d'une view pour avoir l'ombre blue du header
+-> est-ce que des videos insérées soi meme sont plus facile a faire en responsive carousel overflow ?
+je suis passé de swiper 6.7.1 à swiper5.2.0 pour utiliser vue-awesome-swiper
+
+***** la syntaxte v-bind:class( ) ? : *******
+    *** une classe liée à une data
+
+
+J'ai un div qui a une class app. Les autres classes dépendent de
+la data mode. Si ( mode === 'dark') alors ajoute classe 'dark'. Sinon la class
+par défaut est light.
+
+<div class="app" :class="(mode === 'dark') ? 'dark' : 'light'">
+
+
+****** login.vue *******
+
+
+
+**** les transitions what is -:is- ? ****
+
+--> c'est un v-bind:is
+
+<!-- Component changes when currentTabComponent changes -->
+<component v-bind:is="currentTabComponent"></component>
+
+dans cet exemple currentTabComponent peut contenir au choix:
+    le nom du composant enregistré
+OU  un objet, d'options du composant
+
+
+le transition par v-slot fonctionne, mais il ne faut pas définir le mode "in out " ou "out in"
+    -> applique la même transition pour chaque view
+
+https://next.router.vuejs.org/guide/advanced/transitions.html#per-route-transition
+
+    L'utilisation ci-dessus appliquera la même transition
+    pour toutes les routes. Si vous souhaitez que le composant
+     de chaque route ait des transitions différentes,
+      vous pouvez plutôt combiner des champs méta et un nom
+      dynamique sur <transition> :
+
+    <router-view v-slot="{ Component, route }">
+    <!-- Use any custom transition and fallback to `fade` -->
+    <transition :name="route.meta.transition || 'fade'">
+        <component :is="Component" />
+    </transition>
+    </router-view>
+
+https://next.router.vuejs.org/guide/advanced/transitions.html#route-based-dynamic-transition
+
+*** AJOUTER DYNAMIQUEMENT une transition en fonction de la profondeur de la page dans l'arborescence ***
+
+Il est également possible de déterminer la transition à utiliser de manière dynamique
+en fonction de la relation entre la route cible et la route actuelle.
+En utilisant un extrait très similaire à celui juste avant :
+
+    <!-- use a dynamic transition name -->
+    <router-view v-slot="{ Component, route }">
+    <transition :name="route.meta.transitionName">
+        <component :is="Component" />
+    </transition>
+    </router-view>
+
+Nous pouvons ajouter un crochet après la navigation pour ajouter dynamiquement des
+informations au champ méta en fonction de la profondeur de la route :
+
+  router.afterEach((to, from) => {
+  const toDepth = to.path.split('/').length
+  const fromDepth = from.path.split('/').length
+  to.meta.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
+  })
+
+où : depth = profondeur ... c'est a dire cours/c_coursvideos --> niveau 2
+
+**rappel =La méthode split() divise une chaîne de caractères en une liste ordonnée de sous-chaînes***
+
+donc to = un objet qui contient un path (--> to.path = une string), et une prop meta qui est un objet
+    qui contient une prop transitionName.
+
+donc toDepth = une longueur
+    -> le nombre d'element de type el/el/el/el (ici 3 -> compte a partir de 0)
+donc au niveau 1,on aura localhost/cours (toDepth = 2),
+au niveau 2 on aura localhost/cours/coursVideo (toDepth = 3)
+etc ...
+
+DONC on prend le niveau de chemin cible ( to ), et le niveau du chemin d'origine ( from )
+PUIS :
+
+on assigne au chemin cible un nom de transition. (meta.transitionName)
+    qui est au fait SI la longueur de string du chemin cible est < a la longueur str du chemin d'origine ?
+        si oui le nom de la transition est 'slide-right', si non, c'est "slide-left"
+
+
+... et on fait ça sur chaque route du router.. (afterEach)
+
+
+
+https://next.router.vuejs.org/guide/advanced/transitions.html#forcing-a-transition-between-reused-views
+
+
+*** Forcer une transition entre des views ****
+
+Vue peut réutiliser automatiquement les composants qui se ressemblent,
+évitant toute transition.
+Heureusement, il est possible d'ajouter un attribut clé pour forcer les transitions. (:key)
+Cela permet aussi de déclencher des transitions tout en restant sur le même parcours avec
+des paramètres différents :
+
+<router-view v-slot="{ Component, route }">
+  <transition name="fade">
+    <component :is="Component" :key="route.path" />
+  </transition>
+</router-view>
+
+
+ici, route.path = une string de type '/login'
+donc la key='/login'
+
+
+plus précisément ..
+
+***La clé ****
+L'attribut spécial clé est utilisé comme indice pour l'algorithme DOM virtuel
+de Vue pour garder une trace de l'identité d'un nœud.
+De cette façon, Vue sait quand il peut réutiliser et corriger
+ des nœuds existants et quand il doit les réorganiser ou les recréer.
+ Children of the same common parent must have unique keys. Duplicate keys will cause render errors.
+
+ donc une clé est unique.
+
+ la clé est utilisée pour forcer le remplacement d'un élément/composant au lieu de le réutiliser.
+ c'est utile pour déclencher des transitions...
+ For example:
+
+<transition>
+  <span :key="text">{{ text }}</span>
+</transition>
+
+Quand le text change, le <span> sera toujours remplacé au lieu de réutilisé donc une transition sera déclenchée.
+
+Version littérale  :
+
+le router aura dans son <slot></slot> un objet qui aura 1- un composant, 2- une route
+la transition sera "fade" pour tout composant qui est un composant . Et qui a la clé="chemin du composant"
+    ( cette clé est définie dans route.js puisque c'est en fait le path :'/login' par ex)
+
+
+donc
+
+
+<router-view v-slot="{ Component, route }">
+  <transition :name="route.meta.transitionName">
+    <component :is="Component" :key="route.path" />
+  </transition>
+</router-view>
+
+

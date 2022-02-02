@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d217536"],{c5f4:function(c,e,t){"use strict";t.r(e);var d=t("7a23"),n=Object(d["N"])("data-v-57e997cc");Object(d["y"])("data-v-57e997cc");var a={id:"coursVideo"},o=Object(d["i"])("p",null,"Ici le contenu de coursVideo",-1);Object(d["w"])();var i=n((function(c,e,t,n,i,r){return Object(d["v"])(),Object(d["e"])("div",a,[o])})),r={name:"coursVideo"};r.render=i,r.__scopeId="data-v-57e997cc";e["default"]=r}}]);
+//# sourceMappingURL=chunk-2d217536.9388c148.js.map

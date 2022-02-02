@@ -1,0 +1,162 @@
+/* #region *** slideLeft **** */
+
+.slideLeft-enter-active {
+  transition: transform 1s ease-in-out, opacity 1.8s ease-in;
+}
+
+.slideLeft-leave-active {
+  transition: transform .2s ease;
+}
+
+.slideLeft-enter-from {
+  transform: translateX(-100vw);
+  opacity: 0;
+}
+
+.slideLeft-enter-to {
+  transform: translateX('0');
+  opacity: 1;
+}
+
+.slideLeft-leave-to {
+  transform: translateX(100vw);
+}
+
+/* #endregion */
+
+/* #region *** slideRight *** */
+
+.slideRight-enter-active {
+  transition: transform .7s ease-out;
+}
+
+.slideRight-leave-active {
+  transition: transform .2s ease;
+}
+
+.slideRight-enter-from {
+  transform: translateX(100vw);
+}
+
+.slideRight-enter-to {
+  transform: translateX('0');
+}
+
+.slideRight-leave-to {
+  transform: translateX(-100vw);
+}
+
+/* #endregion */
+
+/* #region *** Scale *** */
+
+.scale-enter-active {
+  transition: transform .7s ease-out, opacity .2s;
+  transition-delay: .5s;
+}
+
+.scale-leave-active {
+  transition: opacity .7s ease;
+}
+
+.scale-enter-from {
+  transform: scale(2);
+}
+
+.scale-enter-to {
+  transform: scale(1);
+}
+
+/* agit sur la page d'avant */
+
+.scale-leave-to {
+  opacity: 0;
+}
+
+/* #endregion */
+
+/* #region *** fade *** */
+
+.fade-enter-active {
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-leave-active {
+  transition: opacity .2s ease-out;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* #endregion */
+
+/* #region *** slideRoll *** */
+
+.slideRoll-enter-active {
+  transition: transform 2s linear, opacity 2s linear;
+}
+
+.slideRoll-enter-from {
+  transform: translateX(-100vw) rotate(-720deg);
+  opacity: 0;
+}
+
+.slideRoll-enter-to {
+  transform: translateX(0) rotate(0);
+  opacity: 1;
+}
+
+/* #endregion */
+
+/* #region *** fadeMask*** */
+
+.fadeMask-enter-active {
+  transition: opacity .5s ease-in-out;
+}
+
+.fadeMask-leave-active {
+  transition: opacity .4s ease-in-out;
+}
+
+.fadeMask-enter-from {
+  opacity: 0;
+}
+
+.fadeMask-enter-to {
+  opacity: 1;
+}
+
+.fadeMask-leave-to {
+  opacity: 0;
+}
+
+/* .fadeMask-enter-active {
+    animation: blueFade 2s;
+}
+
+@keyframes blueFade{
+    0%{
+
+    opacity: 0;
+    }
+    50%{
+
+    opacity: 50%;
+    }
+    100%{
+
+    opacity:100%;
+    }
+} */
+
+/* #endregion */
+
